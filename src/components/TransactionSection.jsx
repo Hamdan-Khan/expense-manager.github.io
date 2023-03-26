@@ -3,14 +3,29 @@ import { useGlobalContext } from "../context/Context";
 import Transaction from "./Transaction";
 
 const TransactionSection = () => {
-  const { trans } = useGlobalContext();
+  const { trans, setTrans } = useGlobalContext();
   const [search, setSearch] = useState("");
   const filtered = trans.filter((x) =>
     x.description.toLowerCase().includes(search.toLowerCase())
   );
   return (
     <div className="flex flex-col gap-1">
-      <h1 className="text-lg font-semibold">Transactions</h1>
+      <div className="flex items-center justify-between pr-1">
+        <h1 className="text-lg font-semibold">Transactions</h1>
+        <span
+          className={`material-symbols-outlined text-red-600 ${
+            localStorage.getItem("trans")
+              ? "cursor-pointer"
+              : "cursor-not-allowed"
+          }`}
+          onClick={() => {
+            localStorage.clear();
+            setTrans([]);
+          }}
+        >
+          delete
+        </span>
+      </div>
       <input
         type="text"
         className="bg-zinc-200 focus:outline-none px-2 py-1 rounded-xl mb-1"
